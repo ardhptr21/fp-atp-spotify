@@ -1,10 +1,19 @@
 #include <string>
+#include <regex>
 #include <chrono>
+#include <direct.h>
 
 namespace util
 {
   std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
+  // function prototypes
+  std::string generateRandomString(int length);
+  std::string pwd(std::string extendm, bool relativeSrc);
+  bool isWindows();
+  void clearScreen();
+
+  // function definitions
   std::string generateRandomString(int length)
   {
     auto now = std::chrono::high_resolution_clock::now();
@@ -17,5 +26,35 @@ namespace util
     }
 
     return randomString;
+  }
+
+  std::string pwd(std::string extend = "", bool relativeSrc = true)
+  {
+    char buffer[FILENAME_MAX];
+    getcwd(buffer, FILENAME_MAX);
+    std::string path = std::string(buffer) + (relativeSrc ? "/src" : "") + extend;
+    bool is = isWindows();
+    return std::regex_replace(path, std::regex(is ? "/" : "\\\\"), is ? "\\" : "/");
+  }
+
+  bool isWindows()
+  {
+#ifdef _WIN32
+    return true;
+#else
+    return false;
+#endif
+  }
+
+  void clearScreen()
+  {
+    if (isWindows())
+    {
+      system("cls");
+    }
+    else
+    {
+      system("clear");
+    }
   }
 }
