@@ -32,8 +32,12 @@ namespace song
     std::cout << "Song added successfully." << std::endl;
   }
 
-  void deleteSongHandle(linkedlist::Node<Song> *node, int index)
+  void deleteSongHandle(linkedlist::Node<Song> *node)
   {
+    util::ignoreLine();
+    int index;
+    std::cout << "Enter index : ";
+    std::cin >> index;
     linkedlist::removeAt<Song>(node, index);
   }
 

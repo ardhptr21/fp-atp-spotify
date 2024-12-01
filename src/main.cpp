@@ -140,7 +140,7 @@ void songMenu(State &state, linkedlist::Node<song::Song> *songs)
     song::addSongHandle(songs);
     break;
   case SONG_DELETE:
-    std::cout << "TODO: Delete Song Handle" << std::endl;
+    song::deleteSongHandle(songs);
     break;
   case SONG_BACK:
     state = MAIN;
@@ -169,7 +169,7 @@ void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists)
     playlist::addPlaylistHandle(playlists);
     break;
   case PLAYLIST_DELETE:
-    std::cout << "TODO: Delete Playlist Handle" << std::endl;
+    playlist::deletePlaylistHandle(playlists);
     break;
   case PLAYLIST_SELECT:
     std::cout << "TODO: Select Playlist Handle" << std::endl;

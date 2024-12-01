@@ -30,8 +30,12 @@ namespace playlist
     std::cout << "Playlist added successfully." << std::endl;
   }
 
-  void deletePlaylistHandle(linkedlist::Node<Playlist> *node, int index)
+  void deletePlaylistHandle(linkedlist::Node<Playlist> *node)
   {
+    util::ignoreLine();
+    int index;
+    std::cout << "Enter index : ";
+    std::cin >> index;
     linkedlist::removeAt<Playlist>(node, index);
   }
 }
