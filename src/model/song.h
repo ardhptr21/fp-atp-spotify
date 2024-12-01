@@ -1,5 +1,5 @@
 #include <string>
-
+#include "../lib/linkedlist.h"
 namespace song
 {
   struct Song
@@ -8,4 +8,9 @@ namespace song
     std::string singer;
     std::string title;
   };
+
+  linkedlist::Node<Song> *newSong()
+  {
+    return new linkedlist::Node<Song>{};
+  }
 }
