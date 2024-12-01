@@ -35,4 +35,9 @@ namespace song
   {
     linkedlist::append<PlaylistSong>(node, playlistsong);
   }
+
+  void deletePlaylistSongHandle(linkedlist::Node<PlaylistSong> *node, PlaylistSong playlistsong)
+  {
+    linkedlist::remove<PlaylistSong>(node, playlistsong);
+  }
 }
