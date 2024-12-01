@@ -40,13 +40,28 @@ namespace playlist
     std::cout << "Playlist added successfully." << std::endl;
   }
 
-  void deletePlaylistHandle(linkedlist::Node<Playlist> *&node)
+  void deletePlaylistHandle(PlaylistNode *&node)
   {
     util::ignoreLine();
     int index;
     std::cout << "Enter index : ";
     std::cin >> index;
     linkedlist::removeAt<Playlist>(node, index);
+  }
+
+  Playlist searchPlaylist(PlaylistNode *&node, int index)
+  {
+    PlaylistNode *curr = node;
+    int currIndex = 0;
+    while (curr != nullptr)
+    {
+      if (currIndex == index)
+      {
+        return node->data;
+      }
+      currIndex++;
+    }
+    return Playlist();
   }
 
   void printPlaylistList(PlaylistNode *&node)
@@ -57,7 +72,7 @@ namespace playlist
       return;
     }
 
-    linkedlist::Node<Playlist> *curr = node;
+    PlaylistNode *curr = node;
     util::printBorder('-', width * 2 + 20);
     printf("| %-*s | %-*s | %-*s |\n", 10, "Index", width, "ID", width, "Name");
     util::printBorder('-', width * 2 + 20);
