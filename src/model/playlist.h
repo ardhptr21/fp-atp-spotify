@@ -25,5 +25,9 @@ namespace song
   {
     return new linkedlist::Node<PlaylistSong>{};
   }
+  void addPlaylistSongHandle(linkedlist::Node<Song> *node, Song song)
+  {
+    linkedlist::append<Song>(node, song);
+  }
 
 }
