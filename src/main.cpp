@@ -14,11 +14,30 @@ enum MainMenu
 {
   MENU_PLAYLIST = 1,
   MENU_SONG,
-  EXIT,
+  MENU_EXIT,
+};
+
+enum SongMenu
+{
+  SONG_BACK = 0,
+  SONG_LIST,
+  SONG_ADD,
+  SONG_DELETE,
+};
+
+enum PlaylistMenu
+{
+  PLAYLIST_BACK = 0,
+  PLAYLIST_LIST,
+  PLAYLIST_ADD,
+  PLAYLIST_DELETE,
+  PLAYLIST_SELECT,
 };
 
 void banner();
 void mainMenu(State &state);
+void songMenu(State &state);
+void playlistMenu(State &state);
 
 int main()
 {
@@ -36,10 +55,10 @@ int main()
       mainMenu(state);
       break;
     case SONG:
-      shouldEnd = true;
+      songMenu(state);
       break;
     case PLAYLIST:
-      shouldEnd = true;
+      playlistMenu(state);
       break;
     }
 
@@ -75,8 +94,8 @@ void mainMenu(State &state)
 {
   int choice;
 
-  std::cout << "1. Playlist" << std::endl;
-  std::cout << "2. Song" << std::endl;
+  std::cout << "1. Song" << std::endl;
+  std::cout << "2. Playlist" << std::endl;
   std::cout << "3. Exit" << std::endl;
   std::cout << "Enter your choice: ";
   std::cin >> choice;
@@ -84,14 +103,72 @@ void mainMenu(State &state)
   switch (choice)
   {
   case MENU_SONG:
-    std::cout << "TODO: Song Handle" << std::endl;
     state = SONG;
     break;
   case MENU_PLAYLIST:
-    std::cout << "TODO: Playlist Handle" << std::endl;
     state = PLAYLIST;
     break;
-  case EXIT:
+  case MENU_EXIT:
     exit(0);
+  }
+}
+
+void songMenu(State &state)
+{
+  int choice;
+
+  std::cout << "1. List Song" << std::endl;
+  std::cout << "2. Add Song" << std::endl;
+  std::cout << "3. Delete Song" << std::endl;
+  std::cout << "0. Back" << std::endl;
+  std::cout << "Enter your choice: ";
+  std::cin >> choice;
+
+  switch (choice)
+  {
+  case SONG_LIST:
+    std::cout << "TODO: List Song Handle" << std::endl;
+    break;
+  case SONG_ADD:
+    std::cout << "TODO: Add Song Handle" << std::endl;
+    break;
+  case SONG_DELETE:
+    std::cout << "TODO: Delete Song Handle" << std::endl;
+    break;
+  case SONG_BACK:
+    state = MAIN;
+    break;
+  }
+}
+
+void playlistMenu(State &state)
+{
+  int choice;
+
+  std::cout << "1. List Playlist" << std::endl;
+  std::cout << "2. Add Playlist" << std::endl;
+  std::cout << "3. Delete Playlist" << std::endl;
+  std::cout << "4. Select Playlist" << std::endl;
+  std::cout << "0. Back" << std::endl;
+  std::cout << "Enter your choice: ";
+  std::cin >> choice;
+
+  switch (choice)
+  {
+  case PLAYLIST_LIST:
+    std::cout << "TODO: List Playlist Handle" << std::endl;
+    break;
+  case PLAYLIST_ADD:
+    std::cout << "TODO: Add Playlist Handle" << std::endl;
+    break;
+  case PLAYLIST_DELETE:
+    std::cout << "TODO: Delete Playlist Handle" << std::endl;
+    break;
+  case PLAYLIST_SELECT:
+    std::cout << "TODO: Select Playlist Handle" << std::endl;
+    break;
+  case PLAYLIST_BACK:
+    state = MAIN;
+    break;
   }
 }
