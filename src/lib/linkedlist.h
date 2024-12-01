@@ -37,4 +37,24 @@ namespace linkedlist
 
     remove(node->next, data);
   }
+
+  template <typename T>
+  void removeAtBeginning(Node<T> *node)
+  {
+    node = node->next;
+  }
+
+  template <typename T>
+  void removeAt(Node<T> *node, int index)
+  {
+    if (node->next == nullptr && pos != 0)
+    {
+      return;
+    }
+    if (pos == 0)
+      return removeAtBeginning(node);
+
+    deleteAt(node->next, pos - 1);
+  };
+
 }
