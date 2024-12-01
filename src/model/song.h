@@ -13,4 +13,9 @@ namespace song
   {
     return new linkedlist::Node<Song>{};
   }
+
+  void addSongHandle(linkedlist::Node<Song> *node, Song song)
+  {
+    linkedlist::append<Song>(node, song);
+  }
 }
