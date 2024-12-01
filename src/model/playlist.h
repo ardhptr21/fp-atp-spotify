@@ -1,4 +1,5 @@
 #include <string>
+#include "../lib/linkedlist.h"
 
 namespace song
 {
@@ -14,4 +15,15 @@ namespace song
     std::string playlistId;
     std::string songId;
   };
+
+  linkedlist::Node<Playlist> *newPlaylist()
+  {
+    return new linkedlist::Node<Playlist>{};
+  }
+
+  linkedlist::Node<PlaylistSong> *newPlaylistSong()
+  {
+    return new linkedlist::Node<PlaylistSong>{};
+  }
+
 }
