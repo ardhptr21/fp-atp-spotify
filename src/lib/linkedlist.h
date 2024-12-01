@@ -1,12 +1,14 @@
 #pragma once
 
+#include <optional>
+
 namespace linkedlist
 {
   template <typename T>
 
   struct Node
   {
-    T data;
+    std::optional<T> data;
     Node<T> *next;
   };
 
@@ -16,7 +18,7 @@ namespace linkedlist
     if (node->next == nullptr)
     {
       Node<T> *newNode = new Node<T>{data, nullptr};
-      if (node->data == NULL)
+      if (node->data.has_value())
       {
         node->data = data;
       }
