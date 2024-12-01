@@ -8,6 +8,13 @@ namespace playlistsong
     std::string id;
     std::string playlistId;
     std::string songId;
+
+    PlaylistSong() : id(""), playlistId(""), songId("") {}
+
+    bool isEmpty() const
+    {
+      return id.empty() && playlistId.empty() && songId.empty();
+    }
   };
 
   linkedlist::Node<PlaylistSong> *newPlaylistSong()

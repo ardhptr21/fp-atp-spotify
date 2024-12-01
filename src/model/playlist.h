@@ -10,14 +10,23 @@ namespace playlist
   {
     std::string id;
     std::string name;
+
+    Playlist() : id(""), name("") {}
+
+    bool isEmpty() const
+    {
+      return id.empty() && name.empty();
+    }
   };
 
-  linkedlist::Node<Playlist> *newPlaylist()
+  using PlaylistNode = linkedlist::Node<Playlist>;
+
+  PlaylistNode *newPlaylist()
   {
-    return new linkedlist::Node<Playlist>{};
+    return new PlaylistNode();
   }
 
-  void addPlaylistHandle(linkedlist::Node<Playlist> *node)
+  void addPlaylistHandle(PlaylistNode *&node)
   {
 
     util::ignoreLine();
@@ -31,7 +40,7 @@ namespace playlist
     std::cout << "Playlist added successfully." << std::endl;
   }
 
-  void deletePlaylistHandle(linkedlist::Node<Playlist> *node)
+  void deletePlaylistHandle(linkedlist::Node<Playlist> *&node)
   {
     util::ignoreLine();
     int index;
@@ -39,19 +48,19 @@ namespace playlist
     std::cin >> index;
     linkedlist::removeAt<Playlist>(node, index);
   }
-  void printBorder(char c)
-  {
-    for (int i = 0; i < width * 3 + 1; i++)
-      std::cout << c;
-    std::cout << std::endl;
-  }
 
-  void printPlaylistList(linkedlist::Node<Playlist> *node)
+  void printPlaylistList(PlaylistNode *&node)
   {
+    if (node->isEmpty())
+    {
+      std::cout << "No songs available." << std::endl;
+      return;
+    }
+
     linkedlist::Node<Playlist> *curr = node;
-    printBorder('-');
-    printf("| %-*s | %-*s | %-*s |\n", 10, "ID", width, "PLAYLISTNAME");
-    printBorder('-');
+    util::printBorder('-', width * 2 + 20);
+    printf("| %-*s | %-*s | %-*s |\n", 10, "Index", width, "ID", width, "Name");
+    util::printBorder('-', width * 2 + 20);
     int i = 0;
     while (curr != nullptr)
     {
@@ -59,7 +68,7 @@ namespace playlist
       curr = curr->next;
       i++;
     }
-    printBorder('-');
+    util::printBorder('-', width * 2 + 20);
   }
 
 }

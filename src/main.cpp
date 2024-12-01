@@ -40,8 +40,8 @@ enum PlaylistMenu
 
 void banner();
 void mainMenu(State &state);
-void songMenu(State &state, linkedlist::Node<song::Song> *songs);
-void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists);
+void songMenu(State &state, linkedlist::Node<song::Song> *&songs);
+void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *&playlists);
 
 int main()
 {
@@ -120,7 +120,7 @@ void mainMenu(State &state)
   }
 }
 
-void songMenu(State &state, linkedlist::Node<song::Song> *songs)
+void songMenu(State &state, linkedlist::Node<song::Song> *&songs)
 {
   int choice;
 
@@ -134,7 +134,7 @@ void songMenu(State &state, linkedlist::Node<song::Song> *songs)
   switch (choice)
   {
   case SONG_LIST:
-    std::cout << "TODO: List Song Handle" << std::endl;
+    song::printSongList(songs);
     break;
   case SONG_ADD:
     song::addSongHandle(songs);
@@ -148,7 +148,7 @@ void songMenu(State &state, linkedlist::Node<song::Song> *songs)
   }
 }
 
-void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists)
+void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *&playlists)
 {
   int choice;
 
@@ -163,7 +163,7 @@ void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists)
   switch (choice)
   {
   case PLAYLIST_LIST:
-    std::cout << "TODO: List Playlist Handle" << std::endl;
+    playlist::printPlaylistList(playlists);
     break;
   case PLAYLIST_ADD:
     playlist::addPlaylistHandle(playlists);

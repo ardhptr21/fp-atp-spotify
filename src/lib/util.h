@@ -15,6 +15,7 @@ namespace util
   bool isWindows();
   void clearScreen();
   void ignoreLine();
+  void printBorder(char c, int length);
 
   // function definitions
   std::string generateRandomString(int length)
@@ -64,5 +65,12 @@ namespace util
   void ignoreLine()
   {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  }
+
+  void printBorder(char c, int length)
+  {
+    for (int i = 0; i < length; i++)
+      std::cout << c;
+    std::cout << std::endl;
   }
 }
