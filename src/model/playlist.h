@@ -1,7 +1,9 @@
+#include <iostream>
 #include <string>
 #include "../lib/linkedlist.h"
+#include "../lib/util.h"
 
-namespace song
+namespace playlist
 {
   struct Playlist
   {
@@ -9,41 +11,27 @@ namespace song
     std::string name;
   };
 
-  struct PlaylistSong
-  {
-    std::string id;
-    std::string playlistId;
-    std::string songId;
-  };
-
   linkedlist::Node<Playlist> *newPlaylist()
   {
     return new linkedlist::Node<Playlist>{};
   }
 
-  linkedlist::Node<PlaylistSong> *newPlaylistSong()
+  void addPlaylistHandle(linkedlist::Node<Playlist> *node)
   {
-    return new linkedlist::Node<PlaylistSong>{};
-  }
 
-  void addPlaylistHandle(linkedlist::Node<Playlist> *node, Playlist playlist)
-  {
+    util::ignoreLine();
+
+    Playlist playlist;
+    playlist.id = util::generateRandomString(10);
+    std::cout << "Enter playlist name: ";
+    std::getline(std::cin, playlist.name);
+
     linkedlist::append<Playlist>(node, playlist);
+    std::cout << "Playlist added successfully." << std::endl;
   }
 
-  void addPlaylistSongHandle(linkedlist::Node<PlaylistSong> *node, PlaylistSong playlistsong)
-  {
-    linkedlist::append<PlaylistSong>(node, playlistsong);
-  }
-
-  void deletePlaylistSongHandle(linkedlist::Node<PlaylistSong> *node, PlaylistSong playlistsong)
-  {
-    linkedlist::remove<PlaylistSong>(node, playlistsong);
-  }
-    
   void deletePlaylistHandle(linkedlist::Node<Playlist> *node, int index)
   {
     linkedlist::removeAt<Playlist>(node, index);
-
   }
 }

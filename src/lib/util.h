@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <regex>
 #include <chrono>
@@ -12,6 +14,7 @@ namespace util
   std::string pwd(std::string extendm, bool relativeSrc);
   bool isWindows();
   void clearScreen();
+  void ignoreLine();
 
   // function definitions
   std::string generateRandomString(int length)
@@ -56,5 +59,10 @@ namespace util
     {
       system("clear");
     }
+  }
+
+  void ignoreLine()
+  {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   }
 }

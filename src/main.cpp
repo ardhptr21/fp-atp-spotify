@@ -2,6 +2,10 @@
 #include <fstream>
 #include <locale>
 #include "lib/util.h"
+#include "lib/linkedlist.h"
+#include "model/song.h"
+#include "model/playlist.h"
+#include "model/playlist-song.h"
 
 enum State
 {
@@ -12,8 +16,8 @@ enum State
 
 enum MainMenu
 {
-  MENU_PLAYLIST = 1,
-  MENU_SONG,
+  MENU_SONG = 1,
+  MENU_PLAYLIST,
   MENU_EXIT,
 };
 
@@ -36,8 +40,8 @@ enum PlaylistMenu
 
 void banner();
 void mainMenu(State &state);
-void songMenu(State &state);
-void playlistMenu(State &state);
+void songMenu(State &state, linkedlist::Node<song::Song> *songs);
+void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists);
 
 int main()
 {
@@ -45,6 +49,9 @@ int main()
 
   util::clearScreen();
   banner();
+
+  linkedlist::Node<song::Song> *songs = song::newSong();
+  linkedlist::Node<playlist::Playlist> *playlists = playlist::newPlaylist();
 
   bool shouldEnd = false;
   while (true)
@@ -55,10 +62,10 @@ int main()
       mainMenu(state);
       break;
     case SONG:
-      songMenu(state);
+      songMenu(state, songs);
       break;
     case PLAYLIST:
-      playlistMenu(state);
+      playlistMenu(state, playlists);
       break;
     }
 
@@ -113,7 +120,7 @@ void mainMenu(State &state)
   }
 }
 
-void songMenu(State &state)
+void songMenu(State &state, linkedlist::Node<song::Song> *songs)
 {
   int choice;
 
@@ -130,7 +137,7 @@ void songMenu(State &state)
     std::cout << "TODO: List Song Handle" << std::endl;
     break;
   case SONG_ADD:
-    std::cout << "TODO: Add Song Handle" << std::endl;
+    song::addSongHandle(songs);
     break;
   case SONG_DELETE:
     std::cout << "TODO: Delete Song Handle" << std::endl;
@@ -141,7 +148,7 @@ void songMenu(State &state)
   }
 }
 
-void playlistMenu(State &state)
+void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *playlists)
 {
   int choice;
 
@@ -159,7 +166,7 @@ void playlistMenu(State &state)
     std::cout << "TODO: List Playlist Handle" << std::endl;
     break;
   case PLAYLIST_ADD:
-    std::cout << "TODO: Add Playlist Handle" << std::endl;
+    playlist::addPlaylistHandle(playlists);
     break;
   case PLAYLIST_DELETE:
     std::cout << "TODO: Delete Playlist Handle" << std::endl;
