@@ -9,7 +9,7 @@ namespace linkedlist
   };
 
   template <typename T>
-  void append(Node<int> *node, T data)
+  void append(Node<T> *node, T data)
   {
     if (node->next == nullptr)
     {

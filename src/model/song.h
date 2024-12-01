@@ -18,5 +18,9 @@ namespace song
   {
     linkedlist::removeAt<Song>(node, index);
   }
-
+  
+  void addSongHandle(linkedlist::Node<Song> *node, Song song)
+  {
+    linkedlist::append<Song>(node, song);
+  }
 }
