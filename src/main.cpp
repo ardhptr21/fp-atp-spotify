@@ -38,6 +38,14 @@ enum PlaylistMenu
   PLAYLIST_SELECT,
 };
 
+enum PlaylistDetailMenu
+{
+  PLAYLIST_DETAIL_BACK = 0,
+  PLAYLIST_DETAIL_LIST,
+  PLAYLIST_DETAIL_ADD,
+  PLAYLIST_DETAIL_DELETE,
+};
+
 void banner();
 void mainMenu(State &state);
 void songMenu(State &state, linkedlist::Node<song::Song> *&songs);
@@ -50,8 +58,8 @@ int main()
   util::clearScreen();
   banner();
 
-  linkedlist::Node<song::Song> *songs = song::newSong();
-  linkedlist::Node<playlist::Playlist> *playlists = playlist::newPlaylist();
+  song::SongNode *songs = song::newSong();
+  playlist::PlaylistNode *playlists = playlist::newPlaylist();
 
   bool shouldEnd = false;
   while (true)
@@ -120,7 +128,7 @@ void mainMenu(State &state)
   }
 }
 
-void songMenu(State &state, linkedlist::Node<song::Song> *&songs)
+void songMenu(State &state, song::SongNode *&songs)
 {
   int choice;
 
@@ -148,7 +156,7 @@ void songMenu(State &state, linkedlist::Node<song::Song> *&songs)
   }
 }
 
-void playlistMenu(State &state, linkedlist::Node<playlist::Playlist> *&playlists)
+void playlistMenu(State &state, playlist::PlaylistNode *&playlists)
 {
   int choice;
 
