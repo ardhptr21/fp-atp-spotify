@@ -20,3 +20,19 @@ make build
 ```sh
 make run
 ```
+
+## Flow
+
+1. Bikin branch dari Issue
+2. Lalu, ikuti perintah dari popup Github dan masukkan perintah tersebut di terminal laptop kalian
+   ```sh
+   git fetch origin
+   git checkout <branch>
+   ```
+3. Melakukan commit atau menyimpan perubahan
+   ```sh
+   git add -A
+   git commit -m "<message>"
+   git push origin main <branch>
+   ```
+4. Kalo udah selesai bikin Pull Request, lalu sesuaiin bagian `compare` dengan issue atau branch kalian.
