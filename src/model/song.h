@@ -2,6 +2,8 @@
 #include <string>
 #include "../lib/linkedlist.h"
 #include "../lib/util.h"
+
+#define width 32
 namespace song
 {
   struct Song
@@ -37,4 +39,26 @@ namespace song
     linkedlist::removeAt<Song>(node, index);
   }
 
+  void printBorder(char c)
+  {
+    for (int i = 0; i < width * 3 + 1; i++)
+      std::cout << c;
+    std::cout << std::endl;
+  }
+
+  void printSongList(linkedlist::Node<Song> *node)
+  {
+    linkedlist::Node<Song> *curr = node;
+    printBorder('-');
+    printf("| %-*s | %-*s | %-*s | %-*s |\n", 10, "Index", width, "ID", width, "SINGER", 10, "TITLE");
+    printBorder('-');
+    int i = 0;
+    while (curr != nullptr)
+    {
+      printf("| %-*d | %-*s | %-*s | %-*s |\n", 10, i, width, curr->data.id.c_str(), width, curr->data.singer.c_str(), 10, curr->data.title.c_str());
+      curr = curr->next;
+      i++;
+    }
+    printBorder('-');
+  }
 }
