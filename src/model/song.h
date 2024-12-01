@@ -13,4 +13,10 @@ namespace song
   {
     return new linkedlist::Node<Song>{};
   }
+
+  void deleteSongHandle(linkedlist::Node<Song> *node, int index)
+  {
+    linkedlist::removeAt<Song>(node, index);
+  }
+
 }
