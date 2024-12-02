@@ -66,7 +66,7 @@ namespace song
     int i = 0;
     while (curr != nullptr)
     {
-      printf("| %-*d | %-*s | %-*s | %-*s |\n", 10, i, width, curr->data.id.c_str(), width, curr->data.singer.c_str(), width, curr->data.singer.c_str());
+      printf("| %-*d | %-*s | %-*s | %-*s |\n", 10, i, width, curr->data.id.c_str(), width, curr->data.singer.c_str(), width, curr->data.title.c_str());
       curr = curr->next;
       i++;
     }
