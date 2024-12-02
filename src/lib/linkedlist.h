@@ -40,28 +40,41 @@ namespace linkedlist
   }
 
   template <typename T>
-  void removeAtBeginning(Node<T> *&node)
-  {
-    if (node->next == nullptr)
-    {
-      node = new Node<T>();
-      return;
-    }
-    node = node->next;
-  }
-
-  template <typename T>
   void removeAt(Node<T> *&node, int index)
   {
-    if (node->next == nullptr && index != 0)
+    if (node == nullptr)
     {
       std::cout << "Invalid!" << std::endl;
       return;
     }
 
     if (index == 0)
-      return removeAtBeginning(node);
+    {
+      if (node->next == nullptr)
+      {
+        node = new Node<T>();
+        return;
+      }
+      Node<T> *temp = node;
+      node = node->next;
+      delete temp;
+      return;
+    }
 
-    removeAt(node->next, index - 1);
+    Node<T> *temp = node;
+    for (int i = 0; i < index - 1 && temp != nullptr; i++)
+    {
+      temp = temp->next;
+    }
+
+    if (temp == nullptr || temp->next == nullptr)
+    {
+      std::cout << "List is empty." << std::endl;
+      return;
+    }
+
+    Node<T> *toDelete = temp->next;
+    temp->next = temp->next->next;
+    delete toDelete;
   };
 }
