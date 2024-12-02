@@ -49,7 +49,7 @@ namespace playlist
     linkedlist::removeAt<Playlist>(node, index);
   }
 
-  Playlist searchPlaylist(PlaylistNode *&node, int index)
+  Playlist searchPlaylist(PlaylistNode *node, int index)
   {
     PlaylistNode *curr = node;
     int currIndex = 0;
@@ -57,18 +57,34 @@ namespace playlist
     {
       if (currIndex == index)
       {
-        return node->data;
+        return curr->data;
       }
       currIndex++;
+      curr = curr->next;
     }
     return Playlist();
+  }
+
+  bool selectPlaylistHandle(PlaylistNode *&node, Playlist *selectedPlaylist)
+  {
+    util::ignoreLine();
+    int index;
+    std::cout << "Enter index: ";
+    std::cin >> index;
+    Playlist playlist = searchPlaylist(node, index);
+    if (playlist.isEmpty())
+    {
+      return false;
+    }
+    *selectedPlaylist = playlist;
+    return true;
   }
 
   void printPlaylistList(PlaylistNode *&node)
   {
     if (node->isEmpty())
     {
-      std::cout << "No songs available." << std::endl;
+      std::cout << "No playlists available." << std::endl;
       return;
     }
 
