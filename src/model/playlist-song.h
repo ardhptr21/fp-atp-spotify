@@ -29,6 +29,6 @@ namespace playlistsong
 
   void deletePlaylistSongHandle(linkedlist::Node<PlaylistSong> *node, int index)
   {
-    linkedlist::removeAt<PlaylistSong>(node, index);
+    // linkedlist::removeAt<PlaylistSong>(node, index);
   }
 }

@@ -19,7 +19,14 @@ namespace playlist
     }
   };
 
+  // Function prototypes
   using PlaylistNode = linkedlist::Node<Playlist>;
+  PlaylistNode *newPlaylist();
+  void addPlaylistHandle(PlaylistNode *&);
+  void deletePlaylistHandle(PlaylistNode *&);
+  bool selectPlaylistHandle(PlaylistNode *&, Playlist *);
+  Playlist searchPlaylist(PlaylistNode *, std::string);
+  void printPlaylistList(PlaylistNode *&);
 
   PlaylistNode *newPlaylist()
   {
@@ -43,41 +50,39 @@ namespace playlist
   void deletePlaylistHandle(PlaylistNode *&node)
   {
     util::ignoreLine();
-    int index;
-    std::cout << "Enter index : ";
-    std::cin >> index;
-    linkedlist::removeAt<Playlist>(node, index);
-  }
-
-  Playlist searchPlaylist(PlaylistNode *node, int index)
-  {
-    PlaylistNode *curr = node;
-    int currIndex = 0;
-    while (curr != nullptr)
-    {
-      if (currIndex == index)
-      {
-        return curr->data;
-      }
-      currIndex++;
-      curr = curr->next;
-    }
-    return Playlist();
+    std::string id;
+    std::cout << "Enter ID: ";
+    std::cin >> id;
+    linkedlist::removeByID<Playlist>(node, id);
   }
 
   bool selectPlaylistHandle(PlaylistNode *&node, Playlist *selectedPlaylist)
   {
     util::ignoreLine();
-    int index;
-    std::cout << "Enter index: ";
-    std::cin >> index;
-    Playlist playlist = searchPlaylist(node, index);
+    std::string id;
+    std::cout << "Enter ID: ";
+    std::cin >> id;
+    Playlist playlist = searchPlaylist(node, id);
+
     if (playlist.isEmpty())
-    {
       return false;
-    }
+
     *selectedPlaylist = playlist;
     return true;
+  }
+
+  Playlist searchPlaylist(PlaylistNode *node, std::string id)
+  {
+    PlaylistNode *curr = node;
+    while (curr != nullptr)
+    {
+      if (curr->data.id == id)
+      {
+        return curr->data;
+      }
+      curr = curr->next;
+    }
+    return Playlist();
   }
 
   void printPlaylistList(PlaylistNode *&node)
@@ -89,17 +94,16 @@ namespace playlist
     }
 
     PlaylistNode *curr = node;
-    util::printBorder('-', width * 2 + 20);
-    printf("| %-*s | %-*s | %-*s |\n", 10, "Index", width, "ID", width, "Name");
-    util::printBorder('-', width * 2 + 20);
-    int i = 0;
+    util::printBorder('-', width * 2 + 6);
+    printf("| %-*s | %-*s |\n", width, "ID", width, "Name");
+    util::printBorder('-', width * 2 + 6);
+
     while (curr != nullptr)
     {
-      printf("| %-*d | %-*s | %-*s |\n", 10, i, width, curr->data.id.c_str(), width, curr->data.name.c_str());
+      printf("| %-*s | %-*s |\n", width, curr->data.id.c_str(), width, curr->data.name.c_str());
       curr = curr->next;
-      i++;
     }
-    util::printBorder('-', width * 2 + 20);
+    util::printBorder('-', width * 2 + 6);
   }
 
 }

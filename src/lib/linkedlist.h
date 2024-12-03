@@ -16,6 +16,11 @@ namespace linkedlist
     {
       return data.isEmpty();
     }
+
+    void toEmpty()
+    {
+      data = T();
+    }
   };
 
   template <typename T>
@@ -40,41 +45,46 @@ namespace linkedlist
   }
 
   template <typename T>
-  void removeAt(Node<T> *&node, int index)
+  void removeByID(Node<T> *&node, std::string id)
   {
-    if (node == nullptr)
+    if (node->next == nullptr)
     {
-      std::cout << "Invalid!" << std::endl;
-      return;
-    }
-
-    if (index == 0)
-    {
-      if (node->next == nullptr)
+      if (node->isEmpty())
       {
-        node = new Node<T>();
+        std::cout << "No songs available." << std::endl;
         return;
       }
-      Node<T> *temp = node;
-      node = node->next;
-      delete temp;
+      if (node->data.id == id)
+      {
+        node->toEmpty();
+        return;
+      }
+      std::cout << "Song not found." << std::endl;
       return;
     }
 
-    Node<T> *temp = node;
-    for (int i = 0; i < index - 1 && temp != nullptr; i++)
-    {
-      temp = temp->next;
-    }
+    Node<T> *curr = node;
+    Node<T> *prev = nullptr;
 
-    if (temp == nullptr || temp->next == nullptr)
+    while (curr != nullptr)
     {
-      std::cout << "List is empty." << std::endl;
-      return;
+      if (curr->data.id == id)
+      {
+        if (prev == nullptr)
+        {
+          node = curr->next;
+        }
+        else
+        {
+          prev->next = curr->next;
+        }
+        delete curr;
+        std::cout << "Song deleted successfully." << std::endl;
+        return;
+      }
+      prev = curr;
+      curr = curr->next;
     }
-
-    Node<T> *toDelete = temp->next;
-    temp->next = temp->next->next;
-    delete toDelete;
-  };
+    std::cout << "Song not found." << std::endl;
+  }
 }

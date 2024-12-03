@@ -20,14 +20,20 @@ namespace song
     }
   };
 
+  // Function prototypes
   using SongNode = linkedlist::Node<Song>;
+  SongNode *newSong();
+  void addSongHandle(SongNode *&);
+  void deleteSongHandle(SongNode *&);
+  void printSongList(SongNode *&);
+  Song searchSong(SongNode *, std::string id);
 
   SongNode *newSong()
   {
     return new SongNode();
   }
 
-  void addSongHandle(linkedlist::Node<Song> *&node)
+  void addSongHandle(SongNode *&node)
   {
     util::ignoreLine();
 
@@ -42,16 +48,30 @@ namespace song
     std::cout << "Song added successfully." << std::endl;
   }
 
-  void deleteSongHandle(linkedlist::Node<Song> *&node)
+  void deleteSongHandle(SongNode *&node)
   {
     util::ignoreLine();
-    int index;
-    std::cout << "Enter index : ";
-    std::cin >> index;
-    linkedlist::removeAt<Song>(node, index);
+    std::string id;
+    std::cout << "Enter ID : ";
+    std::cin >> id;
+    linkedlist::removeByID<Song>(node, id);
   }
 
-  void printSongList(linkedlist::Node<Song> *&node)
+  Song searchSong(SongNode *node, std::string id)
+  {
+    linkedlist::Node<Song> *curr = node;
+    while (curr != nullptr)
+    {
+      if (curr->data.id == id)
+      {
+        return curr->data;
+      }
+      curr = curr->next;
+    }
+    return Song();
+  }
+
+  void printSongList(SongNode *&node)
   {
     if (node->isEmpty())
     {
@@ -59,17 +79,16 @@ namespace song
       return;
     }
 
-    linkedlist::Node<Song> *curr = node;
-    util::printBorder('-', width * 3 + 23);
-    printf("| %-*s | %-*s | %-*s | %-*s |\n", 10, "Index", width, "ID", width, "Singer", width, "Title");
-    util::printBorder('-', width * 3 + 23);
-    int i = 0;
+    SongNode *curr = node;
+    util::printBorder('-', width * 3 + 10);
+    printf("| %-*s | %-*s | %-*s |\n", width, "ID", width, "Singer", width, "Title");
+    util::printBorder('-', width * 3 + 10);
+
     while (curr != nullptr)
     {
-      printf("| %-*d | %-*s | %-*s | %-*s |\n", 10, i, width, curr->data.id.c_str(), width, curr->data.singer.c_str(), width, curr->data.title.c_str());
+      printf("| %-*s | %-*s | %-*s |\n", width, curr->data.id.c_str(), width, curr->data.singer.c_str(), width, curr->data.title.c_str());
       curr = curr->next;
-      i++;
     }
-    util::printBorder('-', width * 3 + 23);
+    util::printBorder('-', width * 3 + 10);
   }
 }
