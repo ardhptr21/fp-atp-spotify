@@ -6,6 +6,8 @@
 #include "model/song.h"
 #include "model/playlist.h"
 #include "model/playlist-song.h"
+#include <csignal>
+#include <cstdlib>
 
 enum State
 {
@@ -50,23 +52,29 @@ enum PlaylistDetailMenu
 
 void banner();
 void mainMenu(State &);
-void songMenu(State &, song::SongNode *&);
-void playlistMenu(State &, playlist::PlaylistNode *&, playlist::Playlist *);
-void playlistDetailMenu(State &, playlistsong::PlaylistSongNode *&, song::SongNode *, playlist::Playlist *);
+void songMenu(State &);
+void playlistMenu(State &);
+void playlistDetailMenu(State &);
+void signalHandler(int signum);
+
+song::SongNode *songs;
+playlist::PlaylistNode *playlists;
+playlistsong::PlaylistSongNode *playlistsongs;
+playlist::Playlist *selectedPlaylist;
 
 int main()
 {
+  std::signal(SIGINT, signalHandler);
 
   util::clearScreen();
   banner();
 
   State state = State::MAIN;
 
-  song::SongNode *songs = song::newSong();
-  playlist::PlaylistNode *playlists = playlist::newPlaylist();
-  playlistsong::PlaylistSongNode *playlistsongs = playlistsong::newPlaylistSong();
-
-  playlist::Playlist *selectedPlaylist = new playlist::Playlist();
+  songs = song::newSong();
+  playlists = playlist::newPlaylist();
+  playlistsongs = playlistsong::newPlaylistSong();
+  selectedPlaylist = new playlist::Playlist();
 
   bool shouldEnd = false;
   while (true)
@@ -77,13 +85,13 @@ int main()
       mainMenu(state);
       break;
     case SONG:
-      songMenu(state, songs);
+      songMenu(state);
       break;
     case PLAYLIST:
-      playlistMenu(state, playlists, selectedPlaylist);
+      playlistMenu(state);
       break;
     case DETAIL_PLAYLIST:
-      playlistDetailMenu(state, playlistsongs, songs, selectedPlaylist);
+      playlistDetailMenu(state);
       break;
     }
 
@@ -117,6 +125,7 @@ void banner()
     exit(1);
   }
 }
+
 void mainMenu(State &state)
 {
   int choice;
@@ -136,11 +145,16 @@ void mainMenu(State &state)
     state = PLAYLIST;
     break;
   case MENU_EXIT:
+    std::cout << "Exiting..." << std::endl;
+    song::serialize(songs, util::pwd("/database/songs.txt", false));
+    playlist::serialize(playlists, util::pwd("/database/playlists.txt", false));
+    playlistsong::serialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
+    std::cout << "Goodbye!" << std::endl;
     exit(0);
   }
 }
 
-void songMenu(State &state, song::SongNode *&songs)
+void songMenu(State &state)
 {
   int choice;
 
@@ -167,13 +181,15 @@ void songMenu(State &state, song::SongNode *&songs)
     song::deleteSongHandle(songs);
     break;
   case SONG_BACK:
+  {
     song::serialize(songs, util::pwd("/database/songs.txt", false));
     state = MAIN;
     break;
   }
+  }
 }
 
-void playlistMenu(State &state, playlist::PlaylistNode *&playlists, playlist::Playlist *selectedPlaylist)
+void playlistMenu(State &state)
 {
   int choice;
 
@@ -208,13 +224,15 @@ void playlistMenu(State &state, playlist::PlaylistNode *&playlists, playlist::Pl
     break;
   }
   case PLAYLIST_BACK:
+  {
     playlist::serialize(playlists, util::pwd("/database/playlists.txt", false));
     state = MAIN;
     break;
   }
+  }
 }
 
-void playlistDetailMenu(State &state, playlistsong::PlaylistSongNode *&playlistsongs, song::SongNode *songs, playlist::Playlist *selectedPlaylist)
+void playlistDetailMenu(State &state)
 {
   int choice;
 
@@ -238,8 +256,19 @@ void playlistDetailMenu(State &state, playlistsong::PlaylistSongNode *&playlists
     playlistsong::deletePlaylistSongHandle(playlistsongs);
     break;
   case PLAYLIST_DETAIL_BACK:
+  {
     playlistsong::serialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
     state = PLAYLIST;
     break;
   }
+  }
+}
+
+void signalHandler(int signum)
+{
+  std::cout << "\nInterrupt signal (" << signum << ") received. Exiting gracefully...\n";
+  song::serialize(songs, util::pwd("/database/songs.txt", false));
+  playlist::serialize(playlists, util::pwd("/database/playlists.txt", false));
+  playlistsong::serialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
+  exit(signum);
 }

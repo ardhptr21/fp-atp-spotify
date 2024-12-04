@@ -41,7 +41,7 @@ namespace playlistsong
   PlaylistSongNode *newPlaylistSong()
   {
     PlaylistSongNode *playlistsongs = new PlaylistSongNode();
-    serialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
+    deserialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
     return playlistsongs;
   }
 
