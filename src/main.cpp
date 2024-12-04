@@ -48,10 +48,10 @@ enum PlaylistDetailMenu
 };
 
 void banner();
-void mainMenu(State &state);
-void songMenu(State &state, song::SongNode *&songs);
-void playlistMenu(State &state, playlist::PlaylistNode *&playlists, playlist::Playlist *selectedPlaylist);
-void playlistDetailMenu(State &state, playlist::Playlist *selectedPlaylist);
+void mainMenu(State &);
+void songMenu(State &, song::SongNode *&);
+void playlistMenu(State &, playlist::PlaylistNode *&, playlist::Playlist *);
+void playlistDetailMenu(State &, playlistsong::PlaylistSongNode *&, song::SongNode *, playlist::Playlist *);
 
 int main()
 {
@@ -63,6 +63,7 @@ int main()
 
   song::SongNode *songs = song::newSong();
   playlist::PlaylistNode *playlists = playlist::newPlaylist();
+  playlistsong::PlaylistSongNode *playlistsongs = playlistsong::newPlaylistSong();
 
   playlist::Playlist *selectedPlaylist = new playlist::Playlist();
 
@@ -81,7 +82,7 @@ int main()
       playlistMenu(state, playlists, selectedPlaylist);
       break;
     case DETAIL_PLAYLIST:
-      playlistDetailMenu(state, selectedPlaylist);
+      playlistDetailMenu(state, playlistsongs, songs, selectedPlaylist);
       break;
     }
 
@@ -206,7 +207,7 @@ void playlistMenu(State &state, playlist::PlaylistNode *&playlists, playlist::Pl
   }
 }
 
-void playlistDetailMenu(State &state, playlist::Playlist *selectedPlaylist)
+void playlistDetailMenu(State &state, playlistsong::PlaylistSongNode *&playlistsongs, song::SongNode *songs, playlist::Playlist *selectedPlaylist)
 {
   int choice;
 
@@ -221,13 +222,13 @@ void playlistDetailMenu(State &state, playlist::Playlist *selectedPlaylist)
   switch (choice)
   {
   case PLAYLIST_DETAIL_LIST:
-    std::cout << "TODO: List song from playlist" << std::endl;
+    playlistsong::printPlaylistSongList(playlistsongs, songs, selectedPlaylist->id);
     break;
   case PLAYLIST_DETAIL_ADD:
-    std::cout << "TODO: Add song to playlist" << std::endl;
+    playlistsong::addPlaylistSongHandle(playlistsongs, selectedPlaylist->id);
     break;
   case PLAYLIST_DETAIL_DELETE:
-    std::cout << "TODO: Delete song from playlist" << std::endl;
+    playlistsong::deletePlaylistSongHandle(playlistsongs);
     break;
   case PLAYLIST_DETAIL_BACK:
     state = PLAYLIST;

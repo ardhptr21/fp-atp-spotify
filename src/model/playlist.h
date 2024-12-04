@@ -35,7 +35,6 @@ namespace playlist
 
   void addPlaylistHandle(PlaylistNode *&node)
   {
-
     util::ignoreLine();
 
     Playlist playlist;
