@@ -130,9 +130,16 @@ void mainMenu(State &state)
 {
   int choice;
 
-  std::cout << "1. Song" << std::endl;
-  std::cout << "2. Playlist" << std::endl;
-  std::cout << "3. Exit" << std::endl;
+  util::printBorder('-', width);
+  printf("| %-*s |\n", width - 4, "Main Menu");
+  util::printBorder('-', width);
+
+  printf("| %-*s |\n", width - 4, "1. Song");
+  printf("| %-*s |\n", width - 4, "2. Playlist");
+  printf("| %-*s |\n", width - 4, "3. Exit");
+
+  util::printBorder('-', width);
+
   std::cout << "Enter your choice: ";
   std::cin >> choice;
 
@@ -158,14 +165,20 @@ void songMenu(State &state)
 {
   int choice;
 
-  std::cout << "1. List Song" << std::endl;
-  std::cout << "2. List Sort Song" << std::endl;
-  std::cout << "3. Add Song" << std::endl;
-  std::cout << "4. Delete Song" << std::endl;
-  std::cout << "0. Back" << std::endl;
+  util::printBorder('-', width);
+  printf("| %-*s |\n", width - 4, "Song Menu");
+  util::printBorder('-', width);
+
+  printf("| %-*s |\n", width - 4, "1. List Song");
+  printf("| %-*s |\n", width - 4, "2. List Sort Song");
+  printf("| %-*s |\n", width - 4, "3. Add Song");
+  printf("| %-*s |\n", width - 4, "4. Delete Song");
+  printf("| %-*s |\n", width - 4, "0. Back");
+
+  util::printBorder('-', width);
+
   std::cout << "Enter your choice: ";
   std::cin >> choice;
-
   switch (choice)
   {
   case SONG_LIST:
@@ -193,11 +206,18 @@ void playlistMenu(State &state)
 {
   int choice;
 
-  std::cout << "1. List Playlist" << std::endl;
-  std::cout << "2. Add Playlist" << std::endl;
-  std::cout << "3. Select Playlist" << std::endl;
-  std::cout << "4. Delete Playlist" << std::endl;
-  std::cout << "0. Back" << std::endl;
+  util::printBorder('-', width);
+  printf("| %-*s |\n", width - 4, "Playlist Menu");
+  util::printBorder('-', width);
+
+  printf("| %-*s |\n", width - 4, "1. List Playlist");
+  printf("| %-*s |\n", width - 4, "2. Add Playlist");
+  printf("| %-*s |\n", width - 4, "3. Select Playlist");
+  printf("| %-*s |\n", width - 4, "4. Delete Playlist");
+  printf("| %-*s |\n", width - 4, "0. Back");
+
+  util::printBorder('-', width);
+
   std::cout << "Enter your choice: ";
   std::cin >> choice;
 
@@ -236,11 +256,17 @@ void playlistDetailMenu(State &state)
 {
   int choice;
 
-  std::cout << "Playlist Name: " << selectedPlaylist->name << std::endl;
-  std::cout << "1. List Song" << std::endl;
-  std::cout << "2. Add Song" << std::endl;
-  std::cout << "3. Delete Song" << std::endl;
-  std::cout << "0. Back" << std::endl;
+  util::printBorder('-', width);
+  printf("| %-*s |\n", width - 4, ("Playlist Name: " + selectedPlaylist->name).c_str());
+  util::printBorder('-', width);
+
+  printf("| %-*s |\n", width - 4, "1. List Song");
+  printf("| %-*s |\n", width - 4, "2. Add Song");
+  printf("| %-*s |\n", width - 4, "3. Delete Song");
+  printf("| %-*s |\n", width - 4, "0. Back");
+
+  util::printBorder('-', width);
+
   std::cout << "Enter your choice: ";
   std::cin >> choice;
 
