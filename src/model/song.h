@@ -19,6 +19,17 @@ namespace song
     {
       return id.empty() && singer.empty() && title.empty();
     }
+
+    std::string getValue(std::string key)
+    {
+      if (key == "id")
+        return id;
+      else if (key == "singer")
+        return singer;
+      else if (key == "title")
+        return title;
+      return "";
+    }
   };
 
   // Function prototypes
@@ -27,9 +38,10 @@ namespace song
   void addSongHandle(SongNode *&);
   void deleteSongHandle(SongNode *&);
   void printSongList(SongNode *&);
-  Song searchSong(SongNode *, std::string id);
+  Song searchSong(SongNode *, std::string);
   void serialize(SongNode *&, std::string);
   void deserialize(SongNode *&, std::string);
+  void sortSongHandle(SongNode *);
 
   SongNode *newSong()
   {
@@ -143,4 +155,23 @@ namespace song
     }
     file.close();
   }
+
+  template <typename T>
+  void sortedInsert(SongNode *&node, T data)
+  {
+    std::string sortBy = "title";
+    SongNode *newNode = new SongNode();
+    newNode->data = data;
+  }
+
+  void sortSongHandle(SongNode *node)
+  {
+    std::string sortBy;
+    std::cout << "Sort by (singer/title): ";
+    std::cin >> sortBy;
+    node = linkedlist::sort<Song>(node, sortBy);
+
+    printSongList(node);
+  }
+
 }

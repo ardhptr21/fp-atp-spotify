@@ -16,6 +16,17 @@ namespace playlistsong
     {
       return id.empty() && playlistId.empty() && songId.empty();
     }
+
+    std::string getValue(std::string key)
+    {
+      if (key == "id")
+        return id;
+      else if (key == "playlistId")
+        return playlistId;
+      else if (key == "songId")
+        return songId;
+      return "";
+    }
   };
 
   // Function prototypes

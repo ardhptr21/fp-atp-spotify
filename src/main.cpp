@@ -26,6 +26,7 @@ enum SongMenu
 {
   SONG_BACK = 0,
   SONG_LIST,
+  SONG_LIST_SORT,
   SONG_ADD,
   SONG_DELETE,
 };
@@ -144,8 +145,9 @@ void songMenu(State &state, song::SongNode *&songs)
   int choice;
 
   std::cout << "1. List Song" << std::endl;
-  std::cout << "2. Add Song" << std::endl;
-  std::cout << "3. Delete Song" << std::endl;
+  std::cout << "2. List Sort Song" << std::endl;
+  std::cout << "3. Add Song" << std::endl;
+  std::cout << "4. Delete Song" << std::endl;
   std::cout << "0. Back" << std::endl;
   std::cout << "Enter your choice: ";
   std::cin >> choice;
@@ -154,6 +156,9 @@ void songMenu(State &state, song::SongNode *&songs)
   {
   case SONG_LIST:
     song::printSongList(songs);
+    break;
+  case SONG_LIST_SORT:
+    song::sortSongHandle(songs);
     break;
   case SONG_ADD:
     song::addSongHandle(songs);

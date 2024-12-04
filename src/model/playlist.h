@@ -17,6 +17,15 @@ namespace playlist
     {
       return id.empty() && name.empty();
     }
+
+    std::string getValue(std::string key)
+    {
+      if (key == "id")
+        return id;
+      else if (key == "name")
+        return name;
+      return "";
+    }
   };
 
   // Function prototypes

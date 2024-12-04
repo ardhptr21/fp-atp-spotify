@@ -11,6 +11,7 @@ namespace linkedlist
     Node<T> *next;
 
     Node() : data(), next(nullptr) {}
+    Node(const T &value) : data(value), next(nullptr) {}
 
     bool isEmpty() const
     {
@@ -86,5 +87,64 @@ namespace linkedlist
       curr = curr->next;
     }
     std::cout << "Song not found." << std::endl;
+  }
+
+  template <typename T>
+  Node<T> *copy(Node<T> *node)
+  {
+    if (!node)
+      return nullptr;
+
+    Node<T> *copiedHead = nullptr;
+    Node<T> *copiedTail = nullptr;
+    Node<T> *current = node;
+
+    while (current)
+    {
+      Node<T> *newNode = new Node<T>(current->data);
+      if (!copiedHead)
+      {
+        copiedHead = copiedTail = newNode;
+      }
+      else
+      {
+        copiedTail->next = newNode;
+        copiedTail = newNode;
+      }
+      current = current->next;
+    }
+
+    return copiedHead;
+  }
+
+  template <typename T>
+  Node<T> *sort(Node<T> *node, const std::string &sortBy)
+  {
+    if (!node || !node->next)
+      return node;
+
+    Node<T> *sorted = copy(node);
+
+    bool swapped;
+    do
+    {
+      swapped = false;
+      Node<T> *current = sorted;
+
+      while (current->next)
+      {
+        Node<T> *nextNode = current->next;
+
+        if (nextNode->data.getValue(sortBy) < current->data.getValue(sortBy))
+        {
+          std::swap(current->data, nextNode->data);
+          swapped = true;
+        }
+
+        current = current->next;
+      }
+    } while (swapped);
+
+    return sorted;
   }
 }
