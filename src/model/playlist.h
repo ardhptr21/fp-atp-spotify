@@ -27,10 +27,14 @@ namespace playlist
   bool selectPlaylistHandle(PlaylistNode *&, Playlist *);
   Playlist searchPlaylist(PlaylistNode *, std::string);
   void printPlaylistList(PlaylistNode *&);
+  void serialize(PlaylistNode *&, std::string);
+  void deserialize(PlaylistNode *&, std::string);
 
   PlaylistNode *newPlaylist()
   {
-    return new PlaylistNode();
+    PlaylistNode *playlists = new PlaylistNode();
+    deserialize(playlists, util::pwd("/database/playlists.txt", false));
+    return playlists;
   }
 
   void addPlaylistHandle(PlaylistNode *&node)
@@ -86,12 +90,6 @@ namespace playlist
 
   void printPlaylistList(PlaylistNode *&node)
   {
-    if (node->isEmpty())
-    {
-      std::cout << "No playlists available." << std::endl;
-      return;
-    }
-
     PlaylistNode *curr = node;
     util::printBorder('-', width * 2 + 6);
     printf("| %-*s | %-*s |\n", width, "ID", width, "Name");
@@ -99,10 +97,62 @@ namespace playlist
 
     while (curr != nullptr)
     {
+      if (curr->isEmpty())
+      {
+        curr = curr->next;
+        continue;
+      }
+
       printf("| %-*s | %-*s |\n", width, curr->data.id.c_str(), width, curr->data.name.c_str());
       curr = curr->next;
     }
     util::printBorder('-', width * 2 + 6);
+  }
+
+  void serialize(PlaylistNode *&node, std::string filename)
+  {
+    std::ofstream file;
+    file.open(filename, std::ios::out);
+
+    if (!file.is_open())
+    {
+      std::cerr << "Error: Unable to open file." << std::endl;
+      return;
+    }
+
+    PlaylistNode *curr = node;
+    while (curr != nullptr)
+    {
+      file << curr->data.id << "," << curr->data.name << std::endl;
+      curr = curr->next;
+    }
+    file.close();
+  }
+
+  void deserialize(PlaylistNode *&node, std::string filename)
+  {
+    std::ifstream file;
+    file.open(filename, std::ios::in);
+
+    if (!file.is_open())
+    {
+      std::cerr << "Error: Unable to open file." << std::endl;
+      return;
+    }
+
+    std::string line;
+    while (getline(file, line))
+    {
+      std::string id, name;
+      std::istringstream ss(line);
+      getline(ss, id, ',');
+      getline(ss, name, ',');
+      Playlist playlist;
+      playlist.id = id;
+      playlist.name = name;
+      linkedlist::append<Playlist>(node, playlist);
+    }
+    file.close();
   }
 
 }

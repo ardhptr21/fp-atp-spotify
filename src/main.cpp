@@ -162,6 +162,7 @@ void songMenu(State &state, song::SongNode *&songs)
     song::deleteSongHandle(songs);
     break;
   case SONG_BACK:
+    song::serialize(songs, util::pwd("/database/songs.txt", false));
     state = MAIN;
     break;
   }
@@ -202,6 +203,7 @@ void playlistMenu(State &state, playlist::PlaylistNode *&playlists, playlist::Pl
     break;
   }
   case PLAYLIST_BACK:
+    playlist::serialize(playlists, util::pwd("/database/playlists.txt", false));
     state = MAIN;
     break;
   }
@@ -231,6 +233,7 @@ void playlistDetailMenu(State &state, playlistsong::PlaylistSongNode *&playlists
     playlistsong::deletePlaylistSongHandle(playlistsongs);
     break;
   case PLAYLIST_DETAIL_BACK:
+    playlistsong::serialize(playlistsongs, util::pwd("/database/playlistsongs.txt", false));
     state = PLAYLIST;
     break;
   }
