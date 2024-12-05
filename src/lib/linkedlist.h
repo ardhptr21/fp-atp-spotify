@@ -46,6 +46,15 @@ namespace linkedlist
   }
 
   template <typename T>
+  void appendAtFirst(Node<T> *&node, T data)
+  {
+    Node<T> *newNode = new Node<T>();
+    newNode->data = data;
+    newNode->next = node;
+    node = newNode;
+  }
+
+  template <typename T>
   void removeByID(Node<T> *&node, std::string id)
   {
     if (node->next == nullptr)

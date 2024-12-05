@@ -13,6 +13,8 @@ namespace playlist
 
     Playlist() : id(""), name("") {}
 
+    Playlist(std::string id, std::string name) : id(id), name(name) {}
+
     bool isEmpty() const
     {
       return id.empty() && name.empty();
@@ -38,6 +40,8 @@ namespace playlist
   void printPlaylistList(PlaylistNode *&);
   void serialize(PlaylistNode *&, std::string);
   void deserialize(PlaylistNode *&, std::string);
+
+#define PLAYLIST_FAVORITE_ID "fav"
 
   PlaylistNode *newPlaylist()
   {
@@ -132,6 +136,10 @@ namespace playlist
     PlaylistNode *curr = node;
     while (curr != nullptr)
     {
+      if (curr->isEmpty())
+      {
+        continue;
+      }
       file << curr->data.id << "," << curr->data.name << std::endl;
       curr = curr->next;
     }
@@ -150,6 +158,7 @@ namespace playlist
     }
 
     std::string line;
+    bool hasFavorite = false;
     while (getline(file, line))
     {
       std::string id, name;
@@ -159,7 +168,17 @@ namespace playlist
       Playlist playlist;
       playlist.id = id;
       playlist.name = name;
+      if (playlist.id == PLAYLIST_FAVORITE_ID)
+      {
+        hasFavorite = true;
+      }
       linkedlist::append<Playlist>(node, playlist);
+    }
+
+    if (!hasFavorite)
+    {
+      Playlist favPlaylist = Playlist(PLAYLIST_FAVORITE_ID, "Favorite <3");
+      linkedlist::appendAtFirst<Playlist>(node, favPlaylist);
     }
     file.close();
   }

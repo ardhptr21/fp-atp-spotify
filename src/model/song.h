@@ -15,6 +15,8 @@ namespace song
 
     Song() : id(""), singer(""), title("") {}
 
+    Song(std::string id, std::string singer, std::string title) : id(id), singer(singer), title(title) {}
+
     bool isEmpty() const
     {
       return id.empty() && singer.empty() && title.empty();

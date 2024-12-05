@@ -12,6 +12,8 @@ namespace playlistsong
 
     PlaylistSong() : id(""), playlistId(""), songId("") {}
 
+    PlaylistSong(std::string id, std::string playlistId, std::string songId) : id(id), playlistId(playlistId), songId(songId) {}
+
     bool isEmpty() const
     {
       return id.empty() && playlistId.empty() && songId.empty();
