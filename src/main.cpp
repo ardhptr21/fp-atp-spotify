@@ -43,6 +43,7 @@ enum PlaylistMenu
   PLAYLIST_SELECT,
   PLAYLIST_DELETE,
   PLAYLIST_EXPORT,
+  PLAYLIST_IMPORT,
 
 };
 
@@ -226,6 +227,7 @@ void playlistMenu(State &state)
   printf("| %-*s |\n", width - 4, "3. Select Playlist");
   printf("| %-*s |\n", width - 4, "4. Delete Playlist");
   printf("| %-*s |\n", width - 4, "5. Export Playlist");
+  printf("| %-*s |\n", width - 4, "6. Import Playlist");
   printf("| %-*s |\n", width - 4, "0. Back");
 
   util::printBorder('-', width);
@@ -246,6 +248,9 @@ void playlistMenu(State &state)
     break;
   case PLAYLIST_EXPORT:
     playlist::exportPlaylistHandle(playlists);
+    break;
+  case PLAYLIST_IMPORT:
+    playlist::importPlaylistSongHandle(playlists);
     break;
   case PLAYLIST_SELECT:
   {

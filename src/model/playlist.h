@@ -197,4 +197,16 @@ namespace playlist
     std::cout << "Export Playlist successfully." << std::endl;
   }
 
+  void importPlaylistSongHandle(PlaylistNode *&node)
+  {
+    util::ignoreLine();
+
+    std::string filepath;
+
+    std::cout << "Enter filepath to import: ";
+    std::getline(std::cin, filepath);
+
+    deserialize(node, filepath);
+    std::cout << "Import song successfully." << std::endl;
+  }
 }
