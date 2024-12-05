@@ -174,4 +174,18 @@ namespace song
     printSongList(node);
   }
 
+  void exportSongHandle(SongNode *&node)
+  {
+    util::ignoreLine();
+
+    std::string filename;
+
+    std::cout << "Enter filename to export: ";
+    std::getline(std::cin, filename);
+
+    std::string filepath = util::pwd("/exports/" + filename + ".txt", false);
+    serialize(node, filepath);
+    std::cout << "Export song successfully." << std::endl;
+  }
+
 }

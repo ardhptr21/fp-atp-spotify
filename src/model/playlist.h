@@ -164,4 +164,18 @@ namespace playlist
     file.close();
   }
 
+  void exportPlaylistHandle(PlaylistNode *&node)
+  {
+    util::ignoreLine();
+
+    std::string filename;
+
+    std::cout << "Enter filename to export: ";
+    std::getline(std::cin, filename);
+
+    std::string filepath = util::pwd("/exports/" + filename + "Playlist.txt", false);
+    serialize(node, filepath);
+    std::cout << "Export Playlist successfully." << std::endl;
+  }
+
 }

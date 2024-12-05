@@ -31,6 +31,7 @@ enum SongMenu
   SONG_LIST_SORT,
   SONG_ADD,
   SONG_DELETE,
+  SONG_EXPORT,
 };
 
 enum PlaylistMenu
@@ -40,6 +41,8 @@ enum PlaylistMenu
   PLAYLIST_ADD,
   PLAYLIST_SELECT,
   PLAYLIST_DELETE,
+  PLAYLIST_EXPORT,
+
 };
 
 enum PlaylistDetailMenu
@@ -173,6 +176,7 @@ void songMenu(State &state)
   printf("| %-*s |\n", width - 4, "2. List Sort Song");
   printf("| %-*s |\n", width - 4, "3. Add Song");
   printf("| %-*s |\n", width - 4, "4. Delete Song");
+  printf("| %-*s |\n", width - 4, "5. Export Song");
   printf("| %-*s |\n", width - 4, "0. Back");
 
   util::printBorder('-', width);
@@ -192,6 +196,9 @@ void songMenu(State &state)
     break;
   case SONG_DELETE:
     song::deleteSongHandle(songs);
+    break;
+  case SONG_EXPORT:
+    song::exportSongHandle(songs);
     break;
   case SONG_BACK:
   {
@@ -214,6 +221,7 @@ void playlistMenu(State &state)
   printf("| %-*s |\n", width - 4, "2. Add Playlist");
   printf("| %-*s |\n", width - 4, "3. Select Playlist");
   printf("| %-*s |\n", width - 4, "4. Delete Playlist");
+  printf("| %-*s |\n", width - 4, "5. Export Playlist");
   printf("| %-*s |\n", width - 4, "0. Back");
 
   util::printBorder('-', width);
@@ -231,6 +239,9 @@ void playlistMenu(State &state)
     break;
   case PLAYLIST_DELETE:
     playlist::deletePlaylistHandle(playlists);
+    break;
+  case PLAYLIST_EXPORT:
+    playlist::exportPlaylistHandle(playlists);
     break;
   case PLAYLIST_SELECT:
   {
@@ -257,7 +268,7 @@ void playlistDetailMenu(State &state)
   int choice;
 
   util::printBorder('-', width);
-  printf("| %-*s |\n", width - 4, ("Playlist Name: " + selectedPlaylist->name).c_str());
+  printf("| %-*s |\n", width - 4, ("" + selectedPlaylist->name).c_str());
   util::printBorder('-', width);
 
   printf("| %-*s |\n", width - 4, "1. List Song");
