@@ -15,8 +15,6 @@ namespace song
 
     Song() : id(""), singer(""), title("") {}
 
-    Song(std::string id, std::string singer, std::string title) : id(id), singer(singer), title(title) {}
-
     bool isEmpty() const
     {
       return id.empty() && singer.empty() && title.empty();
@@ -185,9 +183,21 @@ namespace song
     std::cout << "Enter filename to export: ";
     std::getline(std::cin, filename);
 
-    std::string filepath = util::pwd("/exports/" + filename + ".txt", false);
+    std::string filepath = util::pwd("/exports/" + filename + " Songs.txt", false);
     serialize(node, filepath);
     std::cout << "Export song successfully." << std::endl;
   }
 
+  void importSongHandle(SongNode *&node)
+  {
+    util::ignoreLine();
+
+    std::string filepath;
+
+    std::cout << "Enter filepath to import: ";
+    std::getline(std::cin, filepath);
+
+    deserialize(node, filepath);
+    std::cout << "Import song successfully." << std::endl;
+  }
 }
