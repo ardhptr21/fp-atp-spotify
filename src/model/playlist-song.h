@@ -1,6 +1,12 @@
+#include <iostream>
 #include <string>
+#include <fstream>
 #include "../lib/linkedlist.h"
 #include "../lib/util.h"
+#include <windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
 
 namespace playlistsong
 {
@@ -9,8 +15,9 @@ namespace playlistsong
     std::string id;
     std::string playlistId;
     std::string songId;
+    std::string path;
 
-    PlaylistSong() : id(""), playlistId(""), songId("") {}
+    PlaylistSong() : id(""), playlistId(""), songId(""), path() {}
 
     PlaylistSong(std::string id, std::string playlistId, std::string songId) : id(id), playlistId(playlistId), songId(songId) {}
 
@@ -39,6 +46,7 @@ namespace playlistsong
   void printPlaylistSongList(PlaylistSongNode *&, song::SongNode *, std::string);
   void serialize(PlaylistSongNode *&, std::string);
   void deserialize(PlaylistSongNode *&, std::string);
+  void playPlaySong(PlaylistSongNode *&, std::string);
 
   PlaylistSongNode *newPlaylistSong()
   {
@@ -138,5 +146,47 @@ namespace playlistsong
       linkedlist::append<PlaylistSong>(node, playlistSong);
     }
     file.close();
+  }
+
+  void playPlaylistSongHandle(PlaylistSongNode *playlistSongs, song::SongNode *songs, playlist::Playlist *currentPlaylist)
+  {
+    util::ignoreLine();
+    std::string id;
+    std::cout << "Enter ID : ";
+    std::cin >> id;
+
+    PlaylistSongNode *curr = playlistSongs;
+    while (curr != nullptr)
+    {
+      if (currentPlaylist->id != curr->data.playlistId)
+      {
+        curr = curr->next;
+        continue;
+      }
+
+      song::Song song = searchSong(songs, curr->data.songId);
+      if (song.isEmpty())
+      {
+        std::cout << "Song not found." << std::endl;
+        return;
+      }
+
+      std::cout << song.path << std::endl;
+      if (!util::fileExists(song.path))
+      {
+        std::cout << "Cannot find the song file." << std::endl;
+        return;
+      }
+
+      std::cout << "Playing " << song.title << " by " << song.singer << std::endl;
+      std::cout << "Press enter to stop playing." << std::endl;
+      PlaySound(TEXT(song.path.c_str()), NULL, SND_FILENAME | SND_ASYNC);
+
+      std::cin.ignore();
+      std::cin.get();
+      PlaySound(NULL, 0, 0);
+      return;
+    }
+    std::cout << "Playlist not found." << std::endl;
   }
 }

@@ -54,6 +54,7 @@ enum PlaylistDetailMenu
   PLAYLIST_DETAIL_LIST,
   PLAYLIST_DETAIL_ADD,
   PLAYLIST_DETAIL_DELETE,
+  PLAYLIST_DETAIL_PLAY,
 };
 
 void banner();
@@ -288,6 +289,7 @@ void playlistDetailMenu(State &state)
   printf("| %-*s |\n", width - 4, "1. List Song");
   printf("| %-*s |\n", width - 4, "2. Add Song");
   printf("| %-*s |\n", width - 4, "3. Delete Song");
+  printf("| %-*s |\n", width - 4, "4. Play  Song");
   printf("| %-*s |\n", width - 4, "0. Back");
 
   util::printBorder('-', width);
@@ -305,6 +307,9 @@ void playlistDetailMenu(State &state)
     break;
   case PLAYLIST_DETAIL_DELETE:
     playlistsong::deletePlaylistSongHandle(playlistsongs);
+    break;
+  case PLAYLIST_DETAIL_PLAY:
+    playlistsong::playPlaylistSongHandle(playlistsongs, songs, selectedPlaylist);
     break;
   case PLAYLIST_DETAIL_BACK:
   {
