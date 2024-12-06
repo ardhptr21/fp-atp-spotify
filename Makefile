@@ -1,10 +1,16 @@
+SRC_DIR = ./src
+EXTERNAL_DIR = ./src/external
+DIST_DIR = ./dist
+
+LIBS = $(wildcard $(EXTERNAL_DIR)/*.lib)
+
 build:
 	@# check if dist folder exists
-	@if [ ! -d "./dist" ]; then mkdir dist; fi
+	@if [ ! -d "$(DIST_DIR)" ]; then mkdir $(DIST_DIR); fi
 
-	@# compile main.cpp
-	@g++ -o ./dist/main ./src/main.cpp
+	@# compile main.cpp and link all external libraries
+	@g++ -o $(DIST_DIR)/main $(SRC_DIR)/main.cpp $(LIBS)
 
 run: build
 	@# run the compiled file
-	@./dist/main
+	@./$(DIST_DIR)/main

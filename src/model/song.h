@@ -1,8 +1,12 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <windows.h>
+#include <mmsystem.h>
 #include "../lib/linkedlist.h"
 #include "../lib/util.h"
+
+#pragma comment(lib, "winmm.lib")
 
 #define width 32
 namespace song
@@ -12,8 +16,9 @@ namespace song
     std::string id;
     std::string singer;
     std::string title;
+    std::string path;
 
-    Song() : id(""), singer(""), title("") {}
+    Song() : id(""), singer(""), title(""), path() {}
 
     bool isEmpty() const
     {
@@ -28,6 +33,8 @@ namespace song
         return singer;
       else if (key == "title")
         return title;
+      else if (key == "path")
+        return path;
       return "";
     }
   };
@@ -42,6 +49,7 @@ namespace song
   void serialize(SongNode *&, std::string);
   void deserialize(SongNode *&, std::string);
   void sortSongHandle(SongNode *);
+  void playSongHandle(SongNode *);
 
   SongNode *newSong()
   {
@@ -60,6 +68,8 @@ namespace song
     std::getline(std::cin, song.singer);
     std::cout << "Enter title: ";
     std::getline(std::cin, song.title);
+    std::cout << "Enter path: ";
+    std::getline(std::cin, song.path);
 
     linkedlist::append<Song>(node, song);
     std::cout << "Song added successfully." << std::endl;
@@ -122,7 +132,7 @@ namespace song
     SongNode *curr = node;
     while (curr != nullptr)
     {
-      file << curr->data.id << "," << curr->data.singer << "," << curr->data.title << std::endl;
+      file << curr->data.id << "," << curr->data.singer << "," << curr->data.title << "," << curr->data.path << std::endl;
       curr = curr->next;
     }
     file.close();
@@ -142,26 +152,20 @@ namespace song
     std::string line;
     while (getline(file, line))
     {
-      std::string id, singer, title;
+      std::string id, singer, title, path;
       std::istringstream ss(line);
       getline(ss, id, ',');
       getline(ss, singer, ',');
       getline(ss, title, ',');
+      getline(ss, path, ',');
       Song song;
       song.id = id;
       song.singer = singer;
       song.title = title;
+      song.path = path;
       linkedlist::append<Song>(node, song);
     }
     file.close();
-  }
-
-  template <typename T>
-  void sortedInsert(SongNode *&node, T data)
-  {
-    std::string sortBy = "title";
-    SongNode *newNode = new SongNode();
-    newNode->data = data;
   }
 
   void sortSongHandle(SongNode *node)
@@ -199,5 +203,34 @@ namespace song
 
     deserialize(node, filepath);
     std::cout << "Import song successfully." << std::endl;
+  }
+
+  void playSongHandle(SongNode *node)
+  {
+    util::ignoreLine();
+    std::string id;
+    std::cout << "Enter ID : ";
+    std::cin >> id;
+    Song song = searchSong(node, id);
+    if (song.isEmpty())
+    {
+      std::cout << "Song not found." << std::endl;
+      return;
+    }
+
+    std::cout << song.path << std::endl;
+    if (!util::fileExists(song.path))
+    {
+      std::cout << "Cannot find the song file." << std::endl;
+      return;
+    }
+
+    std::cout << "Playing " << song.title << " by " << song.singer << std::endl;
+    std::cout << "Press enter to stop playing." << std::endl;
+    PlaySound(TEXT(song.path.c_str()), NULL, SND_FILENAME | SND_ASYNC);
+
+    std::cin.ignore();
+    std::cin.get();
+    PlaySound(NULL, 0, 0);
   }
 }

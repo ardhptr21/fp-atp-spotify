@@ -29,6 +29,7 @@ enum SongMenu
   SONG_BACK = 0,
   SONG_LIST,
   SONG_LIST_SORT,
+  SONG_PLAY,
   SONG_ADD,
   SONG_DELETE,
   SONG_EXPORT,
@@ -176,10 +177,11 @@ void songMenu(State &state)
 
   printf("| %-*s |\n", width - 4, "1. List Song");
   printf("| %-*s |\n", width - 4, "2. List Sort Song");
-  printf("| %-*s |\n", width - 4, "3. Add Song");
-  printf("| %-*s |\n", width - 4, "4. Delete Song");
-  printf("| %-*s |\n", width - 4, "5. Export Song");
-  printf("| %-*s |\n", width - 4, "6. Import Song");
+  printf("| %-*s |\n", width - 4, "3. Play Song");
+  printf("| %-*s |\n", width - 4, "4. Add Song");
+  printf("| %-*s |\n", width - 4, "5. Delete Song");
+  printf("| %-*s |\n", width - 4, "6. Export Song");
+  printf("| %-*s |\n", width - 4, "7. Import Song");
   printf("| %-*s |\n", width - 4, "0. Back");
 
   util::printBorder('-', width);
@@ -193,6 +195,9 @@ void songMenu(State &state)
     break;
   case SONG_LIST_SORT:
     song::sortSongHandle(songs);
+    break;
+  case SONG_PLAY:
+    song::playSongHandle(songs);
     break;
   case SONG_ADD:
     song::addSongHandle(songs);

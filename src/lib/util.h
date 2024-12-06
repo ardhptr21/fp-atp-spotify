@@ -16,6 +16,7 @@ namespace util
   void clearScreen();
   void ignoreLine();
   void printBorder(char c, int length);
+  bool fileExists(const std::string &name);
 
   // function definitions
   std::string generateRandomString(int length)
@@ -72,5 +73,10 @@ namespace util
     for (int i = 0; i < length; i++)
       std::cout << c;
     std::cout << std::endl;
+  }
+
+  bool fileExists(const std::string &name)
+  {
+    return std::ifstream(name).good();
   }
 }
